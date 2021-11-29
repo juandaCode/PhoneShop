@@ -4,21 +4,41 @@
 	---------------------------*/
 session_start();
 $session_id= session_id();
-if (isset($_POST['nombre_producto'])){$nombre_producto=$_POST['nombre_producto'];}
+/* Connect To Database*/
+require_once ("../config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
+require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
+/*if (isset($_POST['nombre_producto'])){$nombre_producto=$_POST['nombre_producto'];}
+if (isset($_POST['cantidad'])){$cantidad=$_POST['cantidad'];}
 if (isset($_POST['codigo_producto'])){$codigo_producto=$_POST['codigo_producto'];}
 if (isset($_POST['precio_producto'])){$precio_producto=$_POST['precio_producto'];}
-if (isset($_POST['fecha_fab_producto'])){$fecha_fab_producto=$_POST['fecha_fab_producto'];}
-if (isset($_POST['garantia_producto'])){$garantia_producto=$_POST['garantia_producto'];}
-if (isset($_POST['caracteristica_producto'])){$caracteristica_producto=$_POST['caracteristica_producto'];}
+if (isset($_POST['id_marca_producto'])){$idmarca_producto=$_POST['id_marca_producto'];}*/
+
+if (isset($_POST['id'])){$id=$_POST['id'];}
+if (isset($_POST['cantidad'])){$cantidad=$_POST['cantidad'];}
+if (isset($_POST['precio_venta'])){$precio_venta=$_POST['precio_venta'];}
+
+	
+	
+if (!empty($id) and !empty($cantidad) and !empty($precio_venta))
+{
+$insert_tmp=mysqli_query($con, "INSERT INTO tmp (id_producto,cantidad_tmp,precio_tmp,session_id) VALUES ('$id','$cantidad','$precio_venta','$session_id')");
+}
+if (isset($_GET['id']))//codigo elimina un elemento del array
+{
+	$id=intval($_GET['id']);
+$delete=mysqli_query($con, "DELETE FROM tmp WHERE id_tmp='".$id."'");
+}
+
+
 
 	/* Connect To Database*/
 	require_once ("../config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
 	
-if (!empty($nombre_producto) and !empty($codigo_producto) and !empty($precio_producto) and !empty($fecha_fab_producto) and !empty($garantia_producto) and !empty($caracterisitica_producto))
+if (!empty($nombre_producto) and !empty($codigo_producto) and !empty($precio_producto) and !empty($id_marca_producto))
 {
-$insert_query=mysqli_query($con, "INSERT INTO producto (nombre_producto,codigo_producto,precio_producto,fecha_fab_producto,garantia_producto,caracteristica_producto,session_id) 
-VALUES ('$nombre_producto','$codigo_producto','$precio_producto', '$fecha_fab_producto', '$garantia_producto', '$caracteristica_producto' '$session_id')");
+$insert_query=mysqli_query($con, "INSERT INTO producto (nombre_producto,codigo_producto,precio_producto,id_marca_producto,session_id) 
+VALUES ('$nombre_producto','$codigo_producto','$precio_producto', '$id_marca_producto','$session_id')");
 }
 if (isset($_GET['codigo_producto']))//codigo elimina un elemento del array
 {
@@ -33,8 +53,6 @@ $delete=mysqli_query($con, "DELETE FROM producto WHERE codigo_producto='".$cod."
 	<th>CODIGO</th>
 	<th>CANT.</th>
 	<th>PRECIO</th>
-	<th>GARANTIA</th>
-	<th>CARACTERISITICAS</th>
 	<th><span class="pull-right">PRECIO UNIT.</span></th>
 	<th><span class="pull-right">PRECIO TOTAL</span></th>
 	<th></th>
@@ -51,7 +69,7 @@ $delete=mysqli_query($con, "DELETE FROM producto WHERE codigo_producto='".$cod."
 	$id_marca_producto=$row['id_marca_producto'];
 	if (!empty($id_marca_producto))
 	{
-	$sql_marca=mysqli_query($con, "select nombre_marca from marcas where id_marca='$id_marca_producto'");
+	$sql_marca=mysqli_query($con, "SELECT nombre_marca FROM marcas WHERE id_marca='$id_marca_producto'");
 	$rw_marca=mysqli_fetch_array($sql_marca);
 	$nombre_marca=$rw_marca['nombre_marca'];
 	$marca_producto=" ".strtoupper($nombre_marca);

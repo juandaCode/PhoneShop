@@ -1,7 +1,7 @@
 <?php
 // connect to database
 include("../config/db.php");		
- $con=@mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$con=@mysqli_connect($localhost, $root, $clave, $bd);
 $search = strip_tags(trim($_GET['q'])); 
 // Do Prepared Query
 $query = mysqli_query($con, "SELECT * FROM proveedores WHERE nombre_proveedor LIKE '%$search%' LIMIT 40");

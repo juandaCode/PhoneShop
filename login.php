@@ -1,71 +1,51 @@
 <?php
-
-
-    include('dbconect.php');
-    session_start();
-     
-    if (isset($_POST['login'])) {
-		
-        $user = $_POST['user'];
-        $password = $_POST['pass'];
-        $database = new Connection();
-		$db = $database->open();
-        $query = $db->prepare("SELECT * FROM usuario WHERE email_usuario=:user AND pass_usuario = :pass");
-        $query->bindParam("user", $user, "pass", $pass, PDO::PARAM_STR);
-        $query->execute();
-     
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-     
-        if (!$result) {
-            echo '<p class="error">No se ha encontrado ningun usuario!!</p>';
-        } else {
-            //if (password_verify($password, $result['pass'])) {
-                $_SESSION['user_id'] = $result['id_usuario'];
-                echo '<p class="success">Congratulations, Has ingresado satisfactoriamente!</p>';
-            }
-        }
-    
-
-
-
-
-
-
-
-	if(!isset($_SESSION['user_id'])){
-        header('Location: header.php');
-        exit;
-    } 
-    ?>
+session_start();
+if(isset($_SESSION['userid'])){
+    header('location:session.php');
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<title>PhoneShop</title>
-	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/estilos.css">
 </head>
 <body>
-<div class="content"><hr>
+<div class="login">
     <div>
         <h1>PHONESHOP</h1><br>
     </div>
         <div>
             <h2>Tecnologia a tu estilo</h2><br>
         </div>
-            <div class="login form">
-                <form action="index.php"method="POST" >
-                    <label for="user">USUARIO</label>
-                    <input type="text" name="user">
-                    <label for="pass">PASSWORD</label>
-                    <input type="password" name="pass">
-                    <input type="submit" name="login" value="ENVIAR">
+
+        
+		<div class="login-screen">
+			<div class="app-title">
+				<h1>Login</h1>
+			</div>
+
+			<div class="login-form">
+				<div class="control-group">
+                <form action="codLogin.php" method="POST" >
+				<input type="text" class="login-field" name="user" value="" placeholder="USUARIO" id="login-name" required>
+				<label class="login-field-icon fui-user" for="login-name"></label>
+				</div>
+
+				<div class="control-group">
+				<input type="password" class="login-field" name="pass" value="" placeholder="PASSWORD" id="login-pass" required>
+				<label class="login-field-icon fui-lock" for="login-pass"></label>
+				</div>
+
+				<input type="submit" class="btn btn-primary btn-large btn-block" value="INGRESAR" name="login">
+				<a class="login-link" href="#">Olvidaste tu Usuario?</a>
                 </form>
-
-
-    </div>
-</div>
-
+			</div>
+		</div>
+	</div>
 
 
 </body>
 </html>
+

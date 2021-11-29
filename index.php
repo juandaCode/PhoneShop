@@ -9,37 +9,21 @@
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-<nav class="navbar navbar-default">
-  <div class="container"> 
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-      <a class="navbar-brand" href="./">PROCEDIMIENTO</a> </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li ><a href="./">INICIO <span class="sr-only">(current)</span></a></li>
-      </ul>
-    </div>
-    <!-- /.navbar-collapse --> 
-  </div>
-  <!-- /.container-fluid --> 
-</nav>
+<?php include('header.php'); ?>
 <div class="container">
 	<h1 class="page-header text-center">PHONESHOP</h1>
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
 			<a href="#addnew" class="btn btn-primary" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Nuevo Registro</a>
+			<a href="logout.php" type="button" class="btn btn-info">
+			Cerrar Sesion
+			</a>
 <?php 
 	session_start();
-	if(isset($_SESSION['userid'])){
-		?>
-		<div class="alert alert-info text-center" style="margin-top:20px;">
-			<?php echo $_SESSION['userid']; ?>
-		</div>
-		<?php
 
-		unset($_SESSION['userid']);
+	if(isset($_SESSION['userid'])){
+        $userId = $_SESSION['userid'];
+        echo "<h1>Has iniciado sesion: $userId</h1><br><br>";
 	}
 ?>
 <table class="table table-bordered table-striped" style="margin-top:20px;">

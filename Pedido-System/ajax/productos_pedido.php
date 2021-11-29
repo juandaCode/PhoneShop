@@ -23,7 +23,7 @@
 		// escaping, additionally removing everything that could be (html/javascript-) code
          $q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
 		 $aColumns = array('codigo_producto', 'nombre_producto');//Columnas de busqueda
-		 $sTable = "productos";
+		 $sTable = "producto";
 		 $sWhere = "";
 		if ( $_GET['q'] != "" )
 		{
@@ -46,7 +46,7 @@
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
-		$reload = './index.php';
+		$reload = '../addProduct.php';
 		//main query to fetch the data
 		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
